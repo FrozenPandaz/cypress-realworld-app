@@ -1,0 +1,10 @@
+{
+  "targetDefaults": {},
+  "affected": {
+    "defaultBase": "develop"
+  },
+  "nxCloudAccessToken": "MTQwMDc2YWEtNjlkNC00MDk0LTg5ZTctNTNiODkxZmQwMjM0fHJlYWQtd3JpdGU=",
+  "plugins": [
+    "@nx/cypress/plugin"
+  ]
+}

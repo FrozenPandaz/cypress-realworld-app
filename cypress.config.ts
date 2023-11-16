@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import Promise from "bluebird";
 import codeCoverageTask from "@cypress/code-coverage/task";
 import { defineConfig } from "cypress";
+import { exec } from "child_process";
 
 dotenv.config({ path: ".env.local" });
 dotenv.config();
@@ -70,8 +71,20 @@ module.exports = defineConfig({
     viewportHeight: 1000,
     viewportWidth: 1280,
     experimentalRunAllSpecs: true,
+    env: {
+      ciDevServerTarget: 'hi'
+    },
     setupNodeEvents(on, config) {
       const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
+
+      const server = exec("npm start");
+
+      server.stdout?.pipe(process.stdout);
+      server.stderr?.pipe(process.stderr);
+
+      on("after:run", () => {
+        server.kill("SIGINT");
+      });
 
       const queryDatabase = ({ entity, query }, callback) => {
         const fetchData = async (attrs) => {
